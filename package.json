@@ -1,6 +1,6 @@
 {
   "name": "mofron-parts-text",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "text parts of mofron",
   "main": "index.js",
   "scripts": {

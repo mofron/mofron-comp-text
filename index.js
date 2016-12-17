@@ -4,7 +4,7 @@
  * @author simpart
  */
 
-module.exports = class extends mofron.parts.Base {
+mofron.parts.Text = class extends mofron.parts.Base {
     
     initContents (vd, prm) {
         try {
