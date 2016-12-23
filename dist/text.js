@@ -58,12 +58,12 @@
 
 	/**
 	 * @file   Text.js
-	 * @brief  Base UI of Text
+	 * @brief  Text Component for mofron
 	 * @author simpart
 	 */
 
-	mofron.parts.Text = function (_mofron$parts$Base) {
-	    _inherits(_class, _mofron$parts$Base);
+	mofron.comp.Text = function (_mofron$comp$Base) {
+	    _inherits(_class, _mofron$comp$Base);
 
 	    function _class() {
 	        _classCallCheck(this, _class);
@@ -215,7 +215,7 @@
 	    }]);
 
 	    return _class;
-	}(mofron.parts.Base);
+	}(mofron.comp.Base);
 
 /***/ }
 /******/ ]);

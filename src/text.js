@@ -1,10 +1,10 @@
 /**
  * @file   Text.js
- * @brief  Base UI of Text
+ * @brief  Text Component for mofron
  * @author simpart
  */
 
-mofron.parts.Text = class extends mofron.parts.Base {
+mofron.comp.Text = class extends mofron.comp.Base {
     
     initContents (vd, prm) {
         try {
