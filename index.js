@@ -1,7 +1,12 @@
 /**
  * @file   Text.js
- * @brief  Text Component for mofron
  * @author simpart
+ */
+require("mofron-event-click");
+
+/**
+ * @class Text
+ * @brief Text Component for mofron
  */
 mofron.comp.Text = class extends mofron.Component {
     /**
