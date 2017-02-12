@@ -3,20 +3,25 @@
  * @brief  Text Component for mofron
  * @author simpart
  */
-
-mofron.comp.Text = class extends mofron.comp.Base {
-    
+mofron.comp.Text = class extends mofron.Component {
     /**
-     * initialize font theme
+     * initialize text component
      *
      * @param prm : (string) text contents
      * @param opt : (object) component option
      */
     constructor (prm, opt) {
         try {
-            super(prm, opt);
+            super(prm);
+            this.name('Text');
+            
             /* font theme */
             this.m_font = null;
+            
+            /* set option */
+            if (null !== opt) {
+                this.option(opt);
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -26,29 +31,24 @@ mofron.comp.Text = class extends mofron.comp.Base {
     /**
      * initialize vdom
      * 
-     * @param vd : (object) vdom object
      * @param prm : (string) text contents
      */
-    initDomConts (vd, prm) {
+    initDomConts (prm) {
         try {
-            this.name('Text');
             if ('string' != (typeof prm)) {
                 throw new Error('invalid parameter');
             }
             
             /* init vdom contents */
-            var text = new mofron.util.Vdom('div');
+            var text = new mofron.util.Dom('div', this);
             text.text(prm);
-            vd.addChild(text);
-            this.target = text;
-            
-            /* set style */
-            this.size(15);
+            this.vdom().addChild(text);
+            this.target(text);
             
             /* set font theme */
-            this.m_theme.get(new mofron.util.Font(''));
-            if (null !== this.m_font) {
-                this.setFontTheme(this.m_font);
+            var fnt = this.theme().getFont(0);
+            if (null !== fnt) {
+                this.setFontTheme(fnt);
             }
         } catch (e) {
             console.error(e.stack);
@@ -66,12 +66,12 @@ mofron.comp.Text = class extends mofron.comp.Base {
         try {
             var _val = (val === undefined) ? null : val;
             if (null === _val) {
-                return this.getTarget().text();
+                return this.target().text();
             }
             if ('string' !== (typeof _val)) {
                 throw new Error('invalid parameter');
             }
-            this.getTarget().text(_val);
+            this.target().text(_val);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -90,6 +90,11 @@ mofron.comp.Text = class extends mofron.comp.Base {
                 /* getter */
                 return this.style('font-size');
             }
+            
+            if (null === val) {
+                this.style('font-size', null);
+                return;
+            }
             /* setter */
             if ('number' != (typeof val)) {
                 throw new Error('invalid parameter');
@@ -100,16 +105,6 @@ mofron.comp.Text = class extends mofron.comp.Base {
             throw e;
         }
     }
-    
-    //align (tp) {
-    //    try {
-    //        //var style = new mofron.other.Styles(this, ' .text-conts');
-    //        //style.style('text-align', tp);
-    //    } catch (e) {
-    //        console.error(e.stack);
-    //        throw e;
-    //    }
-    //}
     
     /**
      * set link text
@@ -150,7 +145,7 @@ mofron.comp.Text = class extends mofron.comp.Base {
         try {
             var _clr = (clr === undefined) ? null : clr;
             if (null === _clr) {
-                return this.style('color');
+                return mofron.func.getColorObj(this.style('color'));
             }
             if ('object' !== (typeof _clr)) {
                 throw new Error('invalid parameter');
@@ -173,13 +168,14 @@ mofron.comp.Text = class extends mofron.comp.Base {
             var _fnt = (fnt === undefined) ? null : fnt;
             if (null === _fnt) {
                 /* getter */
-                return this.style('font-family');
+                return this.m_font;
             }
             /* setter */
             if ('object' !== (typeof _fnt)) {
                 throw new Error('invalid parameter');
             }
             this.style('font-family', _fnt.getStyle());
+            this.m_font = _fnt;
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -194,10 +190,11 @@ mofron.comp.Text = class extends mofron.comp.Base {
     setFontTheme (fnt) {
         try {
             var _fnt = (fnt === undefined) ? null : fnt;
-            if ('object' !== _fnt) {
+            if ('object' !== typeof _fnt) {
                 throw new Error('invalid parameter');
             }
-            this.getTarget().addClname(fnt.getThemeClass());
+            this.m_font = _fnt;
+            this.target().addClass(fnt.getThemeClass());
         } catch (e) {
             console.error(e.stack);
             throw e;
