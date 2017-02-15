@@ -22,6 +22,7 @@ mofron.comp.Text = class extends mofron.Component {
             
             /* font theme */
             this.m_font = null;
+            this.m_text = null;
             
             /* set option */
             if (null !== opt) {
@@ -46,9 +47,14 @@ mofron.comp.Text = class extends mofron.Component {
             
             /* init vdom contents */
             var text = new mofron.util.Dom('div', this);
-            text.text(prm);
             this.vdom().addChild(text);
             this.target(text);
+            
+            var txt_conts = this.text();
+            if (null === txt_conts) {
+                txt_conts = prm;
+            }
+            text.text(txt_conts);
             
             /* set font theme */
             var fnt = this.theme().getFont(0);
@@ -71,10 +77,14 @@ mofron.comp.Text = class extends mofron.Component {
         try {
             var _val = (val === undefined) ? null : val;
             if (null === _val) {
-                return this.target().text();
+                return this.m_text;
             }
             if ('string' !== (typeof _val)) {
                 throw new Error('invalid parameter');
+            }
+            if (false === this.isRendered()) {
+                this.m_text = val;
+                return;
             }
             this.target().text(_val);
         } catch (e) {
