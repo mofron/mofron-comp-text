@@ -2,32 +2,33 @@
  * @file   Text.js
  * @author simpart
  */
-require("mofron-event-click");
 
 /**
  * @class Text
- * @brief Text Component for mofron
+ * @brief text component for mofron
  */
 mofron.comp.Text = class extends mofron.Component {
     /**
-     * initialize text component
+     * initialize member, exec option
      *
-     * @param prm : (string) text contents
-     * @param opt : (object) component option
+     * @param prm_opt : (string) text contents
+     * @param prm_opt : (object) component option
      */
-    constructor (prm, opt) {
+    constructor (prm_opt) {
         try {
-            super(prm);
+            super();
             this.name('Text');
             
             /* font theme */
             this.m_font = null;
             this.m_text = null;
+            this.m_link = new Array(
+                              null,  /* url */
+                              null   /* new tab flag */
+                          );
             
-            /* set option */
-            if (null !== opt) {
-                this.option(opt);
-            }
+            /* set prameter / option */
+            this.prmOpt(prm_opt);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -41,20 +42,28 @@ mofron.comp.Text = class extends mofron.Component {
      */
     initDomConts (prm) {
         try {
-            if ('string' != (typeof prm)) {
-                throw new Error('invalid parameter');
-            }
-            
             /* init vdom contents */
-            var text = new mofron.util.Dom('div', this);
-            this.vdom().addChild(text);
-            this.target(text);
-            
-            var txt_conts = this.text();
-            if (null === txt_conts) {
-                txt_conts = prm;
+            var conts = null;
+            var link  = this.link();
+            if (null === link[0]) {
+                conts = new mofron.util.Dom('div', this);
+            } else {
+                conts = new mofron.util.Dom('a', this);
+                conts.attr('href', link[0]);
+                if (true === link[1]) {
+                    conts.attr('target', '_blank');
+                }
             }
-            text.text(txt_conts);
+
+            this.vdom().addChild(conts);
+            this.target(conts);
+            
+            /* set text contents */
+            if (null === this.text()) {
+                this.text(prm);
+            } else {
+                this.text(this.text());
+            }
             
             /* set font theme */
             var fnt = this.theme().getFont(0);
@@ -68,25 +77,27 @@ mofron.comp.Text = class extends mofron.Component {
     }
     
     /**
-     * text contents setter/getter
+     * text contents setter / getter
      *
      * @param val : (string) text contents
      * @return (string) text contents
+     * @note do not specify parameters, if use as getter
      */
     text (val) {
         try {
-            var _val = (val === undefined) ? null : val;
-            if (null === _val) {
+            if (undefined === val) {
+                /* getter */
                 return this.m_text;
             }
-            if ('string' !== (typeof _val)) {
+            /* setter */
+            if ('string' !== (typeof val)) {
                 throw new Error('invalid parameter');
             }
-            if (false === this.isRendered()) {
+            if (null === this.vdom()) {
                 this.m_text = val;
-                return;
+            } else {
+                this.target().text(val);
             }
-            this.target().text(_val);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -96,8 +107,10 @@ mofron.comp.Text = class extends mofron.Component {
     /**
      * text size setter / getter
      *
-     * @param val : (number) font pixel size (option)
-     * @return (number) font size
+     * @param val : (number) font size (px)
+     * @param val : (string,null) font size (manual)
+     * @return (string) font size
+     * @note do not specify parameters, if use as getter
      */
     size (val) {
         try {
@@ -105,16 +118,18 @@ mofron.comp.Text = class extends mofron.Component {
                 /* getter */
                 return this.style('font-size');
             }
-            
+            /* setter */
             if (null === val) {
                 this.style('font-size', null);
                 return;
             }
-            /* setter */
-            if ('number' != (typeof val)) {
+            if ('number' === typeof val) {
+                this.style('font-size', val + 'px');
+            } else if ('string' === typeof val) {
+                this.style('font-size', val);
+            } else {
                 throw new Error('invalid parameter');
             }
-            this.style('font-size', val + 'px');
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -122,28 +137,29 @@ mofron.comp.Text = class extends mofron.Component {
     }
     
     /**
-     * set link text
+     * link url setter / getter
      *
      * @param url : (string) link url
      * @param tab : (bool) new tab flag
+     *                     true  : link to page at new tab
+     *                     false : link to page at current tab (default)
+     * @return (object) [0] -> (string) url
+     *                  [1] -> (boolean) new tab flag
+     * @note do not specify parameters, if use as getter
      */
-    setLink (url, tab) {
+    link (url, tab) {
         try {
-            var _tab  = (tab === undefined) ? false : tab;
-            var click = null;
-            
-            if (false === _tab) {
-                click = new mofron.event.Click(function(){
-                    window.location.href = url;
-                });
-            } else {
-                click = new mofron.event.Click(function(){
-                    window.open(url, '_blank');
-                });
+            if (undefined === url) {
+                /* getter */
+                return this.m_link;
             }
-            
-            this.style('cursor', 'pointer');
-            this.addEvent(click);
+            /* setter */
+            var _tab  = (tab === undefined) ? false : tab;
+            if (('string' !== typeof url) || ('boolean' !== typeof _tab)) {
+                throw new Error('invalid parameter');
+            }
+            this.m_link[0] = url;
+            this.m_link[1] = _tab;
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -151,21 +167,23 @@ mofron.comp.Text = class extends mofron.Component {
     }
     
     /**
-     * text color setter/getter
+     * text color setter / getter
      * 
-     * @param clr : (mofron.util.Color) color object
-     * @return (string) color (no-parameter)
+     * @param clr : (object) mofron.util.Color object
+     * @return (string) color
+     * @note do not specify parameters, if use as getter
      */
     color (clr) {
         try {
-            var _clr = (clr === undefined) ? null : clr;
-            if (null === _clr) {
+            if (undefined === clr) {
+                /* getter */
                 return mofron.func.getColorObj(this.style('color'));
             }
-            if ('object' !== (typeof _clr)) {
+            /* setter */
+            if ('object' !== (typeof clr)) {
                 throw new Error('invalid parameter');
             }
-            this.style('color', _clr.getStyle());
+            this.style('color', clr.getStyle());
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -173,43 +191,32 @@ mofron.comp.Text = class extends mofron.Component {
     }
     
     /**
-     * text font setter/getter
+     * text font setter / getter
      * 
-     * @param fnt : (mofron.util.Font) font object
-     * @return (string) font
+     * @param fnt : (object) mofron.util.Font object
+     * @param thm : (boolean) theme flag
+     *                        true  : set font as theme
+     *                        false : set font (default)
+     * @return (object) mofron.util.Font object
+     * @note do not specify parameters, if use as getter
      */
-    font (fnt) {
+    font (fnt, thm) {
         try {
-            var _fnt = (fnt === undefined) ? null : fnt;
-            if (null === _fnt) {
+            if (undefined === fnt) {
                 /* getter */
                 return this.m_font;
             }
             /* setter */
-            if ('object' !== (typeof _fnt)) {
+            var _thm = (undefined === thm) ? false : thm;
+            if (('object' !== typeof fnt) || ('boolean' !== typeof _thm)) {
                 throw new Error('invalid parameter');
             }
-            this.style('font-family', _fnt.getStyle());
-            this.m_font = _fnt;
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
-     * set font theme to class name
-     * 
-     * @param fnt : (object) font object
-     */
-    setFontTheme (fnt) {
-        try {
-            var _fnt = (fnt === undefined) ? null : fnt;
-            if ('object' !== typeof _fnt) {
-                throw new Error('invalid parameter');
+            if (false === _thm) {
+                this.style('font-family', fnt.getFamilyStyle());
+            } else {
+                this.target().className(fnt.getThemeClass());
             }
-            this.m_font = _fnt;
-            this.target().addClass(fnt.getThemeClass());
+            this.m_font = fnt;
         } catch (e) {
             console.error(e.stack);
             throw e;
