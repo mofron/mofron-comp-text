@@ -46,9 +46,9 @@ mofron.comp.Text = class extends mofron.Component {
             var conts = null;
             var link  = this.link();
             if (null === link[0]) {
-                conts = new mofron.util.Dom('div', this);
+                conts = new mofron.Dom('div', this);
             } else {
-                conts = new mofron.util.Dom('a', this);
+                conts = new mofron.Dom('a', this);
                 conts.attr('href', link[0]);
                 if (true === link[1]) {
                     conts.attr('target', '_blank');
@@ -223,3 +223,4 @@ mofron.comp.Text = class extends mofron.Component {
         }
     }
 }
+module.exports = mofron.comp.Text;
