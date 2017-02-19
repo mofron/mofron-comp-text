@@ -223,4 +223,5 @@ mofron.comp.Text = class extends mofron.Component {
         }
     }
 }
+mofron.comp.text = {};
 module.exports = mofron.comp.Text;
