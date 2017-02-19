@@ -1,5 +1,5 @@
 # mofron-comp-text
-Text Component for mofron
+Base of Text Component for mofron
 
 # sample
 please see [here](https://github.com/simpart/mofron) about an overview of mofron
@@ -9,7 +9,7 @@ let Mof = require('mofron');
 let Txt = require('mofron-comp-text');
 
 new Txt({
-    param   : 'TEST',
+    param   : 'TEST',  // require
     link    : './'  ,
     size    : 40    ,
     color   : new Mof.Color(255,0,0),
