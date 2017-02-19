@@ -5,16 +5,16 @@ Text Component for mofron
 please see [here](https://github.com/simpart/mofron) about an overview of mofron
 
 ```javascript
-require('mofron');
-require('mofron-comp-text');
+let Mof = require('mofron');
+let Txt = require('mofron-comp-text');
 
-new mofron.comp.Text({
-    text       : 'TEST',  // required
-    size       : 40,
-    color      : new mofron.util.Color(255,0,0),
-    font       : new mofron.util.Font('serif'),
-    link       : './',
-    visible    : true
+new Txt({
+    param   : 'TEST',
+    link    : './'  ,
+    size    : 40    ,
+    color   : new Mof.Color(255,0,0),
+    font    : new Mof.Font('serif'),
+    visible : true
 });
 ```
 
