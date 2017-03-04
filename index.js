@@ -68,7 +68,7 @@ mofron.comp.Text = class extends mofron.Component {
             /* set font theme */
             var fnt = this.theme().getFont(0);
             if (null !== fnt) {
-                this.setFontTheme(fnt);
+                this.font(fnt, true);
             }
         } catch (e) {
             console.error(e.stack);
@@ -214,7 +214,7 @@ mofron.comp.Text = class extends mofron.Component {
             if (false === _thm) {
                 this.style('font-family', fnt.getFamilyStyle());
             } else {
-                this.target().className(fnt.getThemeClass());
+                this.target().className(fnt.className());
             }
             this.m_font = fnt;
         } catch (e) {
