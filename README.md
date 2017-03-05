@@ -1,5 +1,5 @@
 # mofron-comp-text
-Base of Text Component for mofron
+Base of Text Component for [mofron](https://github.com/simpart/mofron)
 
 # sample
 please see [here](https://github.com/simpart/mofron) about an overview of mofron
