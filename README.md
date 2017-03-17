@@ -19,6 +19,7 @@ new Txt({
 ```
 
 #class specification
+
 | Method          | Parameter                                                                    |    Description                  |
 |:------------------|:-----------------------------------------------------------------|:-------------------------------|
 | text                 | string : text contents (option)                                   | set parameter : update text contents<br>no parameter : get text contents |
