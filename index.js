@@ -19,9 +19,6 @@ mofron.comp.Text = class extends mofron.Component {
             super();
             this.name('Text');
             
-            /* font theme */
-            this.m_font = null;
-            this.m_text = null;
             this.m_link = new Array(
                               null,  /* url */
                               null   /* new tab flag */
@@ -43,27 +40,18 @@ mofron.comp.Text = class extends mofron.Component {
     initDomConts (prm) {
         try {
             /* init vdom contents */
-            var conts = null;
-            if (null === this.link()[0]) {
-                conts = new mofron.Dom('div', this);
-            } else {
-                conts = new mofron.Dom({
-                            tag       : 'a', 
-                            component : this,
-                            attr      : { 'href' : this.link()[0] }
-                        });
-                if (true === this.link()[1]) {
-                    conts.attr('target', '_blank');
-                }
-            }
-            this.vdom().addChild(conts);
-            this.target(conts);
+            this.vdom().addChild(
+                            new mofron.Dom('div', this)
+                        );
             
             /* set text contents */
-            this.text((null === this.text()) ? prm : this.text(), true);
+            this.text((null === prm) ? '' : prm);
             
             /* set font theme */
-            this.font((null === this.theme().getFont(0)) ? undefined : this.theme().getFont(0), true);
+            this.font(
+                (null === this.theme().getFont(0)) ? undefined : this.theme().getFont(0),
+                true
+            );
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -74,27 +62,17 @@ mofron.comp.Text = class extends mofron.Component {
      * text contents setter / getter
      *
      * @param val : (string) text contents
-     * @param ini : (boolean) init flag
      * @return (string) text contents
      * @note do not specify parameters, if use as getter
      */
-    text (val, ini) {
+    text (val) {
         try {
             if (undefined === val) {
                 /* getter */
-                return this.m_text;
+                return this.target().text();
             }
             /* setter */
-            if ('string' !== (typeof val)) {
-                throw new Error('invalid parameter');
-            }
-            var _ini = (undefined === ini) ? false : ini;
-            if ( (true === this.isRendered()) ||
-                 (true === _ini) ) {
-                this.target().text(val);
-            } else {
-                this.m_text = val;
-            }
+            this.target().text(val);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -113,47 +91,12 @@ mofron.comp.Text = class extends mofron.Component {
         try {
             if (undefined === val) {
                 /* getter */
-                return this.style('font-size');
+                return mofron.func.getLength(this.style('font-size'));
             }
             /* setter */
-            var set_val = null;
-            if ('number' === typeof val) {
-                set_val = val + 'px';
-            } else if ( (null     !== val) &&
-                        ('string' !== typeof val) ) {
-                throw new Error('invalid parameter');
-            }
-            this.style('font-size', set_val);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
-     * link url setter / getter
-     *
-     * @param url : (string) link url
-     * @param tab : (bool) new tab flag
-     *                     true  : link to page at new tab
-     *                     false : link to page at current tab (default)
-     * @return (object) [0] -> (string) url
-     *                  [1] -> (boolean) new tab flag
-     * @note do not specify parameters, if use as getter
-     */
-    link (url, tab) {
-        try {
-            if (undefined === url) {
-                /* getter */
-                return this.m_link;
-            }
-            /* setter */
-            var _tab  = (tab === undefined) ? false : tab;
-            if (('string' !== typeof url) || ('boolean' !== typeof _tab)) {
-                throw new Error('invalid parameter');
-            }
-            this.m_link[0] = url;
-            this.m_link[1] = _tab;
+            this.style({
+                'font-size' : ('number' === typeof val) ? val + 'px' : val
+            });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -177,7 +120,7 @@ mofron.comp.Text = class extends mofron.Component {
             if (false === mofron.func.isObject(clr, 'Color')) {
                 throw new Error('invalid parameter');
             }
-            this.style('color', clr.getStyle());
+            this.style({ 'color' : clr.getStyle() });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -198,7 +141,7 @@ mofron.comp.Text = class extends mofron.Component {
         try {
             if (undefined === fnt) {
                 /* getter */
-                return this.m_font;
+                return this.style('font-family');
             }
             /* setter */
             var _thm = (undefined === thm) ? false : thm;
@@ -207,11 +150,10 @@ mofron.comp.Text = class extends mofron.Component {
                 throw new Error('invalid parameter');
             }
             if (false === _thm) {
-                this.style('font-family', fnt.getFamilyStyle());
+                this.style({ 'font-family' : fnt.getFamilyStyle() });
             } else {
                 this.target().className(fnt.className());
             }
-            this.m_font = fnt;
         } catch (e) {
             console.error(e.stack);
             throw e;
