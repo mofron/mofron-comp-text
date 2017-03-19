@@ -9,49 +9,34 @@
  */
 mofron.comp.Text = class extends mofron.Component {
     /**
-     * initialize member, exec option
-     *
-     * @param prm_opt : (string) text contents
-     * @param prm_opt : (object) component option
-     */
-    constructor (prm_opt) {
-        try {
-            super();
-            this.name('Text');
-            
-            this.m_link = new Array(
-                              null,  /* url */
-                              null   /* new tab flag */
-                          );
-            
-            /* set prameter / option */
-            this.prmOpt(prm_opt);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
      * initialize vdom
      * 
      * @param prm : (string) text contents
      */
     initDomConts (prm) {
         try {
+            this.name('Text');
+            
             /* init vdom contents */
             this.vdom().addChild(
-                            new mofron.Dom('div', this)
-                        );
+                new mofron.Dom('div', this)
+            );
             
             /* set text contents */
             this.text((null === prm) ? '' : prm);
-            
-            /* set font theme */
-            this.font(
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    themeConts () {
+        try {
+           /* set font theme */
+           this.font(
                 (null === this.theme().getFont(0)) ? undefined : this.theme().getFont(0),
                 true
-            );
+           );
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -152,6 +137,12 @@ mofron.comp.Text = class extends mofron.Component {
             if (false === _thm) {
                 this.style({ 'font-family' : fnt.getFamilyStyle() });
             } else {
+                var clnm = this.target().className();
+                for (var idx in clnm) {
+                    if (clnm[idx] === fnt.className()) {
+                        return;
+                    }
+                }
                 this.target().className(fnt.className());
             }
         } catch (e) {
