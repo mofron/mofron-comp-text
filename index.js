@@ -8,6 +8,18 @@
  * @brief text component for mofron
  */
 mofron.comp.Text = class extends mofron.Component {
+    
+    constructor (prm_opt) {
+        try {
+            super();
+            this.name('Text');
+            this.prmOpt(prm_opt);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     /**
      * initialize vdom
      * 
@@ -15,8 +27,6 @@ mofron.comp.Text = class extends mofron.Component {
      */
     initDomConts (prm) {
         try {
-            this.name('Text');
-            
             /* init vdom contents */
             this.vdom().addChild(
                 new mofron.Dom('div', this)
