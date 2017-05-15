@@ -44,7 +44,7 @@ mofron.comp.Text = class extends mofron.Component {
         try {
            /* set font theme */
            this.font(
-                (null === this.theme().getFont(0)) ? undefined : this.theme().getFont(0),
+                (null === this.theme().font(0)) ? undefined : this.theme().font(0),
                 true
            );
         } catch (e) {
