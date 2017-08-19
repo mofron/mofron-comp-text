@@ -2,6 +2,7 @@
  * @file   Text.js
  * @author simpart
  */
+let mf = require('mofron');
 
 /**
  * @class Text
@@ -29,7 +30,7 @@ mofron.comp.Text = class extends mofron.Component {
         try {
             /* init vdom contents */
             this.vdom().addChild(
-                new mofron.Dom('div', this)
+                new mf.Dom('div', this)
             );
             
             /* set text contents */
@@ -86,7 +87,9 @@ mofron.comp.Text = class extends mofron.Component {
         try {
             if (undefined === val) {
                 /* getter */
-                return mofron.func.getLength(this.style('font-size'));
+                return mf.func.getLength(
+                    this.style('font-size')
+                );
             }
             /* setter */
             this.style({
@@ -109,10 +112,10 @@ mofron.comp.Text = class extends mofron.Component {
         try {
             if (undefined === clr) {
                 /* getter */
-                return mofron.func.getColorObj(this.style('color'));
+                return mf.func.getColorObj(this.style('color'));
             }
             /* setter */
-            if (false === mofron.func.isObject(clr, 'Color')) {
+            if (false === mf.func.isInclude(clr, 'Color')) {
                 throw new Error('invalid parameter');
             }
             this.style({ 'color' : clr.getStyle() });
@@ -140,7 +143,7 @@ mofron.comp.Text = class extends mofron.Component {
             }
             /* setter */
             var _thm = (undefined === thm) ? false : thm;
-            if ( (false     === mofron.func.isObject(fnt, 'Font')) ||
+            if ( (false     === mf.func.isInclude(fnt, 'Font')) ||
                  ('boolean' !== typeof _thm) ) {
                 throw new Error('invalid parameter');
             }
@@ -155,6 +158,27 @@ mofron.comp.Text = class extends mofron.Component {
                 }
                 this.target().className(fnt.className());
             }
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    space (val) {
+        try {
+            if (undefined === val) {
+                /* getter */
+                return mf.func.getLength(
+                    this.style('letter-spacing')
+                );
+            }
+            /* setter */
+            if ('number' !== typeof val) {
+                throw new Error('invalid parameter');
+            }
+            this.style({
+                'letter-spacing' : val + 'px'
+            });
         } catch (e) {
             console.error(e.stack);
             throw e;
