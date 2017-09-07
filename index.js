@@ -8,13 +8,12 @@ let mf = require('mofron');
  * @class Text
  * @brief text component for mofron
  */
-mofron.comp.Text = class extends mofron.Component {
+mf.comp.Text = class extends mf.Component {
     
-    constructor (prm_opt) {
+    constructor (po) {
         try {
-            super();
+            super(po);
             this.name('Text');
-            this.prmOpt(prm_opt);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -33,21 +32,15 @@ mofron.comp.Text = class extends mofron.Component {
                 new mf.Dom('div', this)
             );
             
-            /* set text contents */
+            /* set contents */
             this.text((null === prm) ? '' : prm);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    themeConts () {
-        try {
-           /* set font theme */
-           this.font(
-                (null === this.theme().font(0)) ? undefined : this.theme().font(0),
-                true
-           );
+            
+            /* set font */
+            let fnt = this.theme().font(0);
+            if (null !== fnt) {
+                this.font(fnt, true);
+            }
+            
         } catch (e) {
             console.error(e.stack);
             throw e;
