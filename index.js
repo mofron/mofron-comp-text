@@ -12,8 +12,9 @@ mf.comp.Text = class extends mf.Component {
     
     constructor (po) {
         try {
-            super(po);
+            super();
             this.name('Text');
+            this.prmOpt(po);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -28,19 +29,25 @@ mf.comp.Text = class extends mf.Component {
     initDomConts (prm) {
         try {
             /* init vdom contents */
-            this.vdom().addChild(
+            this.adom().addChild(
                 new mf.Dom('div', this)
             );
             
             /* set contents */
             this.text((null === prm) ? '' : prm);
             
-            /* set font */
-            let fnt = this.theme().font(0);
-            if (null !== fnt) {
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    themeConts (thm) {
+        try {
+            let fnt = thm.font(0);
+            if ( (null !== fnt) && (null === this.font()) ) {
                 this.font(fnt, true);
             }
-            
         } catch (e) {
             console.error(e.stack);
             throw e;
