@@ -1,6 +1,10 @@
 {
   "name": "mofron-comp-text",
+<<<<<<< HEAD
   "version": "0.7.5",
+=======
+  "version": "0.8.0",
+>>>>>>> 8f82c1e5c2e716335daed678b02273ea73e0c281
   "description": "text component for mofron",
   "main": "index.js",
   "scripts": {
