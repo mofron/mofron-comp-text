@@ -3,7 +3,6 @@
  * @author simpart
  */
 let mf = require('mofron');
-
 /**
  * @class Text
  * @brief text component for mofron
@@ -39,9 +38,9 @@ mf.comp.Text = class extends mf.Component {
         }
     }
     
-    themeConts (thm) {
+    themeConts () {
         try {
-            let fnt = thm.font(0);
+            let fnt = this.theme().font(0);
             if ( (null !== fnt) && (null === this.font()) ) {
                 this.font(fnt, true);
             }
