@@ -28,10 +28,10 @@ mf.comp.Text = class extends mf.Component {
     initDomConts (prm) {
         try {
             super.initDomConts();
-            
             /* set contents */
             this.text((null === prm) ? '' : prm);
-            
+            /* set default size */
+            this.size(24);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -83,14 +83,32 @@ mf.comp.Text = class extends mf.Component {
         try {
             if (undefined === val) {
                 /* getter */
-                return mf.func.getLength(
-                    this.style('font-size')
-                );
+                let ret_siz = mf.func.getLength(this.style('font-size'));
+                if ((null !== ret_siz) && ('number' === typeof ret_siz)) {
+                    return ret_siz + (ret_siz/2);
+                }
+                return ret_siz;
             }
             /* setter */
-            this.style({
-                'font-size' : ('number' === typeof val) ? val + 'px' : val
-            });
+            if ('number' === typeof val) {
+                let buf = 2*val;
+                val = buf/3 + 'px';
+            }
+            this.style({ 'font-size' : val });
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    height (val) {
+        try {
+            if (undefined === val) {
+                /* getter */
+                return this.size();
+            }
+            /* setter */
+            this.size(val);
         } catch (e) {
             console.error(e.stack);
             throw e;
