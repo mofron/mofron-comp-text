@@ -8,18 +8,6 @@ let mf = require('mofron');
  * @brief text component for mofron
  */
 mf.comp.Text = class extends mf.Component {
-    
-    constructor (po) {
-        try {
-            super();
-            this.name('Text');
-            this.prmOpt(po);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
     /**
      * initialize vdom
      * 
@@ -27,7 +15,9 @@ mf.comp.Text = class extends mf.Component {
      */
     initDomConts (prm) {
         try {
+            this.name('Text');
             super.initDomConts();
+            
             /* set contents */
             this.text((null === prm) ? '' : prm);
             /* set default size */
@@ -199,5 +189,5 @@ mf.comp.Text = class extends mf.Component {
         }
     }
 }
-mofron.comp.text = {};
 module.exports = mofron.comp.Text;
+/* end of file */
