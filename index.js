@@ -8,6 +8,18 @@ let mf = require('mofron');
  * @brief text component for mofron
  */
 mf.comp.Text = class extends mf.Component {
+    constructor (po) {
+        try {
+            super(po);
+            this.m_defsiz = true;
+            this.name('Text');
+            this.execOption();
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     /**
      * initialize vdom
      * 
@@ -15,7 +27,6 @@ mf.comp.Text = class extends mf.Component {
      */
     initDomConts (prm) {
         try {
-            this.name('Text');
             super.initDomConts();
             
             /* set contents */
