@@ -10,10 +10,10 @@ let mf = require('mofron');
 mf.comp.Text = class extends mf.Component {
     constructor (po) {
         try {
-            super(po);
+            super();
             this.m_defsiz = true;
             this.name('Text');
-            this.execOption();
+            this.prmOpt(po);;
         } catch (e) {
             console.error(e.stack);
             throw e;
