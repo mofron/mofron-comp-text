@@ -11,9 +11,8 @@ mf.comp.Text = class extends mf.Component {
     constructor (po) {
         try {
             super();
-            this.m_defsiz = true;
             this.name('Text');
-            this.prmOpt(po);;
+            this.prmOpt(po);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -194,6 +193,20 @@ mf.comp.Text = class extends mf.Component {
             this.style({
                 'letter-spacing' : val + 'px'
             });
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    weight (prm) {
+        try {
+            if (undefined === prm) {
+                /* getter */
+                return this.style('font-weight');
+            }
+            /* setter */
+            this.style({ 'font-weight' : prm });
         } catch (e) {
             console.error(e.stack);
             throw e;
