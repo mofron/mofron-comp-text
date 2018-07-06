@@ -126,7 +126,7 @@ mf.comp.Text = class extends mf.Component {
         try {
             if (undefined === clr) {
                 /* getter */
-                return mf.func.getColorObj(this.style('color'));
+                return mf.func.getColor(this.style('color'));
             }
             /* setter */
             if (false === mf.func.isInclude(clr, 'Color')) {
