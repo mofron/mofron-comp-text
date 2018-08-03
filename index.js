@@ -12,6 +12,7 @@ mf.comp.Text = class extends mf.Component {
         try {
             super();
             this.name('Text');
+            this.prmMap('text');
             this.prmOpt(po);
         } catch (e) {
             console.error(e.stack);
@@ -22,28 +23,14 @@ mf.comp.Text = class extends mf.Component {
     /**
      * initialize vdom
      * 
-     * @param prm : (string) text contents
      */
-    initDomConts (prm) {
+    initDomConts () {
         try {
             super.initDomConts();
-            
-            /* set contents */
-            this.text((null === prm) ? '' : prm);
+            /* set init contents */
+            this.text('');
             /* set default size */
             this.size(24);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    themeConts () {
-        try {
-            let fnt = this.theme().font(0);
-            if ( (null !== fnt) && (null === this.font()) ) {
-                this.font(fnt, true);
-            }
         } catch (e) {
             console.error(e.stack);
             throw e;
