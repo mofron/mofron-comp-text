@@ -109,7 +109,7 @@ mf.comp.Text = class extends mf.Component {
      * @return (string) color
      * @note do not specify parameters, if use as getter
      */
-    color (clr) {
+    mainColor (clr) {
         try {
             if (undefined === clr) {
                 /* getter */
@@ -125,6 +125,7 @@ mf.comp.Text = class extends mf.Component {
             throw e;
         }
     }
+    
     
     /**
      * text font setter / getter
