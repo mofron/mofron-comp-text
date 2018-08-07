@@ -83,29 +83,6 @@ mf.comp.Text = class extends mf.Component {
         }
     }
     
-    sizeType (prm) {
-        try {
-            if (undefined === prm) {
-                /* getter */
-                return (undefined === this.m_siztp) ? 'rem' : this.m_siztp;
-            }
-            /* setter */
-            if ( ('string' !== typeof prm) ||
-                 ( ('px'  !== prm) &&
-                   ('%'   !== prm) &&
-                   ('em'  !== prm) &&
-                   ('rem' !== prm) &&
-                   ('vw'  !== prm) &&
-                   ('vh'  !== prm) ) ) {
-                throw new Error('invalid parameter');
-            }
-            this.m_siztp = prm;;
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
     height (val) {
         try {
             if (undefined === val) {
@@ -188,8 +165,9 @@ mf.comp.Text = class extends mf.Component {
         try {
             if (undefined === val) {
                 /* getter */
-                return mf.func.getLength(
-                    this.style('letter-spacing')
+                return mf.func.getSize(
+                    this.style('letter-spacing'),
+                    this.sizeType()
                 );
             }
             /* setter */
@@ -197,7 +175,7 @@ mf.comp.Text = class extends mf.Component {
                 throw new Error('invalid parameter');
             }
             this.style({
-                'letter-spacing' : val + 'px'
+                'letter-spacing' : val + this.sizeType()
             });
         } catch (e) {
             console.error(e.stack);
