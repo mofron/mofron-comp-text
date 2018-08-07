@@ -2,7 +2,7 @@
  * @file   Text.js
  * @author simpart
  */
-let mf = require('mofron');
+const mf = require('mofron');
 /**
  * @class Text
  * @brief text component for mofron
@@ -30,7 +30,7 @@ mf.comp.Text = class extends mf.Component {
             /* set init contents */
             this.text('');
             /* set default size */
-            this.size(24);
+            this.size(0.16);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -66,22 +66,40 @@ mf.comp.Text = class extends mf.Component {
      * @return (string) font size
      * @note do not specify parameters, if use as getter
      */
-    size (val) {
+    size (prm) {
         try {
-            if (undefined === val) {
+            if (undefined === prm) {
                 /* getter */
-                let ret_siz = mf.func.getLength(this.style('font-size'));
-                if ((null !== ret_siz) && ('number' === typeof ret_siz)) {
-                    return ret_siz + (ret_siz/2);
-                }
-                return ret_siz;
+                return mf.func.getSize(this.style('font-size'), this.sizeType());
             }
             /* setter */
-            if ('number' === typeof val) {
-                let buf = 2*val;
-                val = buf/3 + 'px';
+            if ('number' !== typeof prm) {
+                throw new Error('invalid parameter');
             }
-            this.style({ 'font-size' : val });
+            this.style({ 'font-size' : prm + this.sizeType() });
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    sizeType (prm) {
+        try {
+            if (undefined === prm) {
+                /* getter */
+                return (undefined === this.m_siztp) ? 'rem' : this.m_siztp;
+            }
+            /* setter */
+            if ( ('string' !== typeof prm) ||
+                 ( ('px'  !== prm) &&
+                   ('%'   !== prm) &&
+                   ('em'  !== prm) &&
+                   ('rem' !== prm) &&
+                   ('vw'  !== prm) &&
+                   ('vh'  !== prm) ) ) {
+                throw new Error('invalid parameter');
+            }
+            this.m_siztp = prm;;
         } catch (e) {
             console.error(e.stack);
             throw e;
