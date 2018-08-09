@@ -12,6 +12,7 @@ mf.comp.Text = class extends mf.Component {
         try {
             super();
             this.name('Text');
+            this.sizeType('rem');
             this.prmMap('text');
             this.prmOpt(po);
         } catch (e) {
@@ -68,15 +69,7 @@ mf.comp.Text = class extends mf.Component {
      */
     size (prm) {
         try {
-            if (undefined === prm) {
-                /* getter */
-                return mf.func.getSize(this.style('font-size'), this.sizeType());
-            }
-            /* setter */
-            if ('number' !== typeof prm) {
-                throw new Error('invalid parameter');
-            }
-            this.style({ 'font-size' : prm + this.sizeType() });
+            return mf.func.compSize(this, 'font-size', prm);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -85,12 +78,7 @@ mf.comp.Text = class extends mf.Component {
     
     height (val) {
         try {
-            if (undefined === val) {
-                /* getter */
-                return this.size();
-            }
-            /* setter */
-            this.size(val);
+            return this.size(val);
         } catch (e) {
             console.error(e.stack);
             throw e;
