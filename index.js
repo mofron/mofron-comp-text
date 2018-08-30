@@ -12,7 +12,6 @@ mf.comp.Text = class extends mf.Component {
         try {
             super();
             this.name('Text');
-            this.sizeType('rem');
             this.prmMap('text');
             this.prmOpt(po);
         } catch (e) {
@@ -31,7 +30,7 @@ mf.comp.Text = class extends mf.Component {
             /* set init contents */
             this.text('');
             /* set default size */
-            this.size(0.16);
+            this.size('0.16rem');
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -69,7 +68,7 @@ mf.comp.Text = class extends mf.Component {
      */
     size (prm) {
         try {
-            return mf.func.compSize(this, 'font-size', prm);
+            return this.sizeValue('font-size', prm);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -77,9 +76,7 @@ mf.comp.Text = class extends mf.Component {
     }
     
     height (val) {
-        try {
-            return this.size(val);
-        } catch (e) {
+        try { return this.size(val); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -150,22 +147,7 @@ mf.comp.Text = class extends mf.Component {
     }
     
     space (val) {
-        try {
-            if (undefined === val) {
-                /* getter */
-                return mf.func.getSize(
-                    this.style('letter-spacing'),
-                    this.sizeType()
-                );
-            }
-            /* setter */
-            if ('number' !== typeof val) {
-                throw new Error('invalid parameter');
-            }
-            this.style({
-                'letter-spacing' : val + this.sizeType()
-            });
-        } catch (e) {
+        try { return this.sizeValue('letter-spacing', val); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -173,12 +155,7 @@ mf.comp.Text = class extends mf.Component {
     
     weight (prm) {
         try {
-            if (undefined === prm) {
-                /* getter */
-                return this.style('font-weight');
-            }
-            /* setter */
-            this.style({ 'font-weight' : prm });
+            return (undefined === prm) ? this.style('font-weight') : this.style({ 'font-weight' : prm });
         } catch (e) {
             console.error(e.stack);
             throw e;
