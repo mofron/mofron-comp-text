@@ -2,7 +2,8 @@
  * @file   Text.js
  * @author simpart
  */
-const mf = require('mofron');
+const mf   = require('mofron');
+const Font = require('mofron-effect-font');
 /**
  * @class Text
  * @brief text component for mofron
@@ -45,14 +46,7 @@ mf.comp.Text = class extends mf.Component {
      * @note do not specify parameters, if use as getter
      */
     text (val) {
-        try {
-            if (undefined === val) {
-                /* getter */
-                return this.target().text();
-            }
-            /* setter */
-            this.target().text(val);
-        } catch (e) {
+        try { return this.target().text(val); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -67,9 +61,7 @@ mf.comp.Text = class extends mf.Component {
      * @note do not specify parameters, if use as getter
      */
     size (prm) {
-        try {
-            return this.sizeValue('font-size', prm);
-        } catch (e) {
+        try { return this.sizeValue('font-size', prm); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -90,17 +82,7 @@ mf.comp.Text = class extends mf.Component {
      * @note do not specify parameters, if use as getter
      */
     mainColor (clr) {
-        try {
-            if (undefined === clr) {
-                /* getter */
-                return mf.func.getColor(this.style('color'));
-            }
-            /* setter */
-            if (false === mf.func.isInclude(clr, 'Color')) {
-                throw new Error('invalid parameter');
-            }
-            this.style({ 'color' : clr.getStyle() });
-        } catch (e) {
+        try { return this.tgtColor('color', clr); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -117,28 +99,19 @@ mf.comp.Text = class extends mf.Component {
      * @return (object) mofron.util.Font object
      * @note do not specify parameters, if use as getter
      */
-    font (fnt, thm) {
+    font (fnm, pth) {
         try {
-            if (undefined === fnt) {
+            let ret = this.effect('Font');
+            if (undefined === fnm) {
                 /* getter */
-                return this.style('font-family');
+                return (null === ret) ? null : [ret.fontName(), ret.path()];
             }
             /* setter */
-            var _thm = (undefined === thm) ? false : thm;
-            if ( (false     === mf.func.isInclude(fnt, 'Font')) ||
-                 ('boolean' !== typeof _thm) ) {
-                throw new Error('invalid parameter');
-            }
-            if (false === _thm) {
-                this.style({ 'font-family' : fnt.getFamilyStyle() });
+            if (null === ret) {
+                this.effect(new Font(fnm, pth));
             } else {
-                var clnm = this.target().className();
-                for (var idx in clnm) {
-                    if (clnm[idx] === fnt.className()) {
-                        return;
-                    }
-                }
-                this.target().className(fnt.className());
+                ret.fontName(fnm);
+                ret.path(pth);
             }
         } catch (e) {
             console.error(e.stack);
@@ -155,7 +128,9 @@ mf.comp.Text = class extends mf.Component {
     
     weight (prm) {
         try {
-            return (undefined === prm) ? this.style('font-weight') : this.style({ 'font-weight' : prm });
+            return this.style(
+                (undefined === prm) ? 'font-weight' : { 'font-weight' : prm }
+            );
         } catch (e) {
             console.error(e.stack);
             throw e;
