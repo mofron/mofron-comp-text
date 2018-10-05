@@ -1,5 +1,6 @@
 /**
- * @file   Text.js
+ * @file   mofron-comp-text/index.js
+ * @brief  text component for mofron
  * @author simpart
  */
 const mf   = require('mofron');
@@ -22,16 +23,15 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * initialize vdom
-     * 
+     * initialize dom contents
+     *
+     * @note private method
      */
     initDomConts () {
         try {
             super.initDomConts();
-            /* set init contents */
-            this.text('');
-            /* set default size */
-            this.size('0.16rem');
+            this.text('');         // default text
+            this.size('0.16rem');  // default size
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -39,11 +39,11 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * text contents setter / getter
+     * setter/getter for text value
      *
-     * @param val : (string) text contents
-     * @return (string) text contents
-     * @note do not specify parameters, if use as getter
+     * @param val (string) text value
+     * @param val (undefined) calls as getter
+     * @return (string) text value
      */
     text (val) {
         try { return this.target().text(val); } catch (e) {
@@ -53,20 +53,25 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * text size setter / getter
+     * setter/getter for text size
      *
-     * @param val : (number) font size (px)
-     * @param val : (string,null) font size (manual)
-     * @return (string) font size
-     * @note do not specify parameters, if use as getter
+     * @param val (string) css size value
+     * @param val (null) delete text size
+     * @param val (undefined) calls as getter
+     * @return (string) css size value
+     * @return (null) not set yet
      */
-    size (prm) {
-        try { return this.sizeValue('font-size', prm); } catch (e) {
+    size (val) {
+        try { return this.sizeValue('font-size', val); } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
+    /**
+     * setter/getter for text size
+     * this is same operation with the size method
+     */
     height (val) {
         try { return this.size(val); } catch (e) {
             console.error(e.stack);
@@ -75,29 +80,29 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * text color setter / getter
+     * setter/getter for text color
      * 
-     * @param clr : (mofron.Color) color object
-     * @return (string) color
-     * @note do not specify parameters, if use as getter
+     * @param val (string) color (name, rgb, hex)
+     * @param val (null) delete color
+     * @param val (undefined) calls as getter
+     * @return (string) css 'color' value
+     * @return (null) not set yet
      */
-    mainColor (clr) {
+    mainColor (val) {
         try { return this.tgtColor('color', clr); } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
-    
     /**
-     * text font setter / getter
+     * setter/getter for font
      * 
-     * @param fnt : (object) mofron.util.Font object
-     * @param thm : (boolean) theme flag
-     *                        true  : set font as theme
-     *                        false : set font (default)
-     * @return (object) mofron.util.Font object
-     * @note do not specify parameters, if use as getter
+     * @param fnm (string) font name
+     * @param fnm (undefined) calls as getter
+     * @param pth (string) path to font
+     * @return (array) [font name, path]
+     * @return (null) not set yet
      */
     font (fnm, pth) {
         try {
@@ -119,6 +124,15 @@ mf.comp.Text = class extends mf.Component {
         }
     }
     
+    /**
+     * setter/getter for character spacing
+     *
+     * @param val (string) css size value
+     * @param val (null) delete space
+     * @param val (undefined) calls as getter
+     * @return (string) css size value
+     * @return (null) not set yet
+     */
     space (val) {
         try { return this.sizeValue('letter-spacing', val); } catch (e) {
             console.error(e.stack);
@@ -126,10 +140,18 @@ mf.comp.Text = class extends mf.Component {
         }
     }
     
-    weight (prm) {
+    /**
+     * setter/getter for text thickness
+     *
+     * @param val (number 100-900) thickness value
+     * @param val (null) delete thickness
+     * @return (number) thickness value
+     * @return (null) not set yet
+     */
+    weight (val) {
         try {
             return this.style(
-                (undefined === prm) ? 'font-weight' : { 'font-weight' : prm }
+                (undefined === val) ? 'font-weight' : { 'font-weight' : val }
             );
         } catch (e) {
             console.error(e.stack);
