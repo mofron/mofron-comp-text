@@ -89,7 +89,7 @@ mf.comp.Text = class extends mf.Component {
      * @return (null) not set yet
      */
     mainColor (val) {
-        try { return this.tgtColor('color', clr); } catch (e) {
+        try { return this.tgtColor('color', val); } catch (e) {
             console.error(e.stack);
             throw e;
         }
