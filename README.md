@@ -8,7 +8,7 @@ this is text component for [mofron](https://github.com/mofron/mofron).
 <require>
     <tag module="mofron-comp-text">Text</tag>
 </require>
-<Text size="0.4rem" font="sefif" space="0.1rem">text component</Text>
+<Text size="0.4rem" font="serif" space="0.1rem">text component</Text>
 ```
 
 # parameter list
