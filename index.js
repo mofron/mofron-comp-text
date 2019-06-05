@@ -12,6 +12,7 @@ mf.comp.Text = class extends mf.Component {
      * constructor
      * 
      * @param (string) 'text' function parameter
+     * @type private
      */
     constructor (po) {
         try {
