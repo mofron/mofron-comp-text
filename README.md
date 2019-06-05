@@ -15,8 +15,8 @@ this is text component for [mofron](https://mofron.github.io/mofron/).
 
 | Parameter Name     | Type              | Simple Param |    Description                 |
 |:-------------------|:------------------|:------------:|:-------------------------------|
-| text               | string            | ◯            | text value                     |
-| size               | string            |              | text size                      |
+| text               | string            | ◯            | text contents                  |
+| size               | string (size)     |              | text size                      |
 | font               | string            |              | font name                      |
-| space              | string            |              | spacing size                   |
+| space              | string (size)     |              | spacing size                   |
 | weight             | number            |              | thickness value                |
