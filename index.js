@@ -5,11 +5,14 @@
  */
 const mf   = require('mofron');
 const Font = require('mofron-effect-font');
-/**
- * @class Text
- * @brief text component for mofron
- */
+
 mf.comp.Text = class extends mf.Component {
+
+    /**
+     * constructor
+     * 
+     * @param (string) 'text' function parameter
+     */
     constructor (po) {
         try {
             super();
@@ -24,14 +27,14 @@ mf.comp.Text = class extends mf.Component {
     
     /**
      * initialize dom contents
-     *
-     * @note private method
+     * 
+     * @type private
      */
     initDomConts () {
         try {
             super.initDomConts();
             this.text('');         // default text
-            this.size('0.16rem');  // default size
+            this.size("0.16rem");  // default size
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -39,11 +42,11 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * setter/getter for text value
-     *
-     * @param val (string) text value
-     * @param val (undefined) calls as getter
-     * @return (string) text value
+     * text value
+     * 
+     * @param (string) text value
+     * @return (string) text value (when called without parameter)
+     * @type tag parameter
      */
     text (val) {
         try { return this.target().text(val); } catch (e) {
@@ -53,13 +56,11 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * setter/getter for text size
+     * text size
      *
-     * @param val (string) css size value
-     * @param val (null) delete text size
-     * @param val (undefined) calls as getter
-     * @return (string) css size value
-     * @return (null) not set yet
+     * @param (string) text size
+     * @return (string) css size value (when called without parameter)
+     * @type tag parameter
      */
     size (val) {
         try { return this.sizeValue('font-size', val); } catch (e) {
@@ -69,8 +70,12 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * setter/getter for text size
-     * this is same operation with the size method
+     * text height
+     * 
+     * @param (string) text size
+     * @return (string) css size value (when called without parameter)
+     * @note this is the same as the 'size'.
+     * @type tag parameter
      */
     height (val) {
         try { return this.size(val); } catch (e) {
@@ -80,13 +85,12 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * setter/getter for text color
+     * text color
      * 
-     * @param val (string) color (name, rgb, hex)
-     * @param val (null) delete color
-     * @param val (undefined) calls as getter
-     * @return (string) css 'color' value
-     * @return (null) not set yet
+     * @param (string) text color (name, hex)
+     *        ([number,number,number]) rbg number
+     * @return (string) text color (when called without parameter)
+     * @type tag parameter
      */
     mainColor (val) {
         try { return this.tgtColor('color', val); } catch (e) {
@@ -96,20 +100,18 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * setter/getter for font
+     * text font
      * 
-     * @param fnm (string) font name
-     * @param fnm (undefined) calls as getter
-     * @param pth (string) path to font
-     * @return (array) [font name, path]
-     * @return (null) not set yet
+     * @param (string) font name
+     * @return (array) font name (when called without parameter)
+     * @type tag parameter
      */
     font (fnm, pth) {
         try {
             let ret = this.effect('Font');
             if (undefined === fnm) {
                 /* getter */
-                return (null === ret) ? null : [ret.fontName(), ret.path()];
+                return (null === ret) ? null : ret.fontName();
             }
             /* setter */
             if (null === ret) {
@@ -125,13 +127,12 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * setter/getter for character spacing
+     * character spacing
      *
-     * @param val (string) css size value
-     * @param val (null) delete space
+     * @param val (string) spacing size
      * @param val (undefined) calls as getter
-     * @return (string) css size value
-     * @return (null) not set yet
+     * @return (string) spacing size (when called without parameter)
+     * @type tag parameter
      */
     space (val) {
         try { return this.sizeValue('letter-spacing', val); } catch (e) {
@@ -141,12 +142,12 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * setter/getter for text thickness
+     * text thickness
      *
-     * @param val (number 100-900) thickness value
-     * @param val (null) delete thickness
-     * @return (number) thickness value
-     * @return (null) not set yet
+     * @param (number:100-900) thickness value
+     *        (null) delete thickness
+     * @return (number) thickness value (when called without parameter)
+     * @type tag parameter
      */
     weight (val) {
         try {
