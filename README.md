@@ -1,6 +1,6 @@
 # mofron-comp-text
-[mofron](https://github.com/mofron/mofron) is module based frontend framework.<br>
-this is text component for [mofron](https://github.com/mofron/mofron).
+[mofron](https://mofron.github.io/mofron/) is module based frontend framework.<br>
+this is text component for [mofron](https://mofron.github.io/mofron/).
 
 # sample
 
