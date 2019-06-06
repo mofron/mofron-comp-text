@@ -2,6 +2,12 @@
 [mofron](https://mofron.github.io/mofron/) is module based frontend framework.<br>
 this is text component for [mofron](https://mofron.github.io/mofron/).
 
+# Install
+
+```bash
+npm install mofron mofron-comp-text
+```
+
 # Sample
 
 ```html
