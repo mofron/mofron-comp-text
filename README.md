@@ -19,10 +19,10 @@ npm install mofron mofron-comp-text
 
 # Parameter
 
-| Parameter Name     | Type              | Simple Param |    Description                 |
-|:-------------------|:------------------|:------------:|:-------------------------------|
-| text               | string            | ◯            | text contents                  |
-| size               | string (size)     |              | text size                      |
-| font               | string            |              | font name                      |
-| space              | string (size)     |              | spacing size                   |
-| weight             | number            |              | thickness value                |
+|Simple<br>Param| Parameter Name     | Type              |    Description                 |
+|:-------------:|:-------------------|:------------------|:-------------------------------|
+|      ◯        | text               | string            | text contents                  |
+|               | size               | string (size)     | text size                      |
+|               | font               | string            | font name                      |
+|               | space              | string (size)     | spacing size                   |
+|               | weight             | number            | thickness value                |
