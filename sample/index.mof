@@ -1,0 +1,4 @@
+<require>
+    <tag module="mofron-comp-text">Text</tag>
+</require>
+<Text size="0.4rem" font="serif" space="0.1rem">text component</Text>

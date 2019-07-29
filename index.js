@@ -12,6 +12,7 @@ mf.comp.Text = class extends mf.Component {
      * constructor
      * 
      * @param (string) 'text' function parameter
+     * @pmap text
      * @type private
      */
     constructor (po) {
@@ -46,7 +47,7 @@ mf.comp.Text = class extends mf.Component {
      * text value
      * 
      * @param (string) text value
-     * @return (string) text value (when called without parameter)
+     * @return (string) text value
      * @type tag parameter
      */
     text (val) {
@@ -60,11 +61,11 @@ mf.comp.Text = class extends mf.Component {
      * text size
      *
      * @param (string) text size
-     * @return (string) css size value (when called without parameter)
+     * @return (string) css size value
      * @type tag parameter
      */
     size (val) {
-        try { return this.sizeValue('font-size', val); } catch (e) {
+        try { return mf.func.cmpSize(this, 'font-size', val); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -74,7 +75,7 @@ mf.comp.Text = class extends mf.Component {
      * text height
      * 
      * @param (string) text size
-     * @return (string) css size value (when called without parameter)
+     * @return (string) css size value
      * @note this is the same as the 'size'.
      * @type tag parameter
      */
@@ -88,13 +89,12 @@ mf.comp.Text = class extends mf.Component {
     /**
      * text color
      * 
-     * @param (string) text color (name, hex)
-     *        ([number,number,number]) rbg number
-     * @return (string) text color (when called without parameter)
+     * @param (solor) text color
+     * @return (string) text color
      * @type tag parameter
      */
     mainColor (val) {
-        try { return this.tgtColor('color', val); } catch (e) {
+        try { return mf.func.cmpColor(this, 'color', val); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -104,7 +104,7 @@ mf.comp.Text = class extends mf.Component {
      * text font
      * 
      * @param (string) font name
-     * @return (array) font name (when called without parameter)
+     * @return (array) font name
      * @type tag parameter
      */
     font (fnm, pth) {
@@ -130,13 +130,12 @@ mf.comp.Text = class extends mf.Component {
     /**
      * character spacing
      *
-     * @param val (string) spacing size
-     * @param val (undefined) calls as getter
-     * @return (string) spacing size (when called without parameter)
+     * @param (string) spacing size
+     * @return (string) spacing size
      * @type tag parameter
      */
     space (val) {
-        try { return this.sizeValue('letter-spacing', val); } catch (e) {
+        try { return mf.func.cmpSize(this, 'letter-spacing', val); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -147,7 +146,7 @@ mf.comp.Text = class extends mf.Component {
      *
      * @param (number:100-900) thickness value
      *        (null) delete thickness
-     * @return (number) thickness value (when called without parameter)
+     * @return (number) thickness value
      * @type tag parameter
      */
     weight (val) {
