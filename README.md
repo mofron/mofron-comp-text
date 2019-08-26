@@ -22,10 +22,13 @@ npm install mofron   mofron-comp-text
 |:--------------:|:---------------|:-----|:------------|
 | ◯  | text | string | text value |
 | | size | string | text size |
+| | | option | style option |
 | | height | string | text size |
-| | mainColor | solor | text color |
+| | | option | style option |
+| | mainColor | color | text color |
+| | | option | style option |
 | | font | string | font name |
 | | space | string | spacing size |
-| | weight | number:100-900 | thickness value |
-| | | null | delete thickness |
+| | weight | number/null | number: thickness value [100-900] |
+| | | | null: delete thickness |
 

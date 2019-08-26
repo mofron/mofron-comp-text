@@ -61,40 +61,93 @@ mf.comp.Text = class extends mf.Component {
      * text size
      *
      * @param (string) text size
+     * @param (option) style option
      * @return (string) css size value
      * @type tag parameter
      */
-    size (val) {
-        try { return mf.func.cmpSize(this, 'font-size', val); } catch (e) {
+    size (val, opt) {
+        try { return mf.func.cmpSize(this, 'font-size', [val,opt]); } catch (e) {
             console.error(e.stack);
             throw e;
         }
+    }
+    
+    /**
+     * forced size
+     * 
+     * @param (string) text size
+     * @return (string) text size
+     * @type private
+     */
+    fsize (prm) {
+        try { this.size(prm,{locked:true}); } catch (e) {
+	    console.error(e.stack);
+            throw e;
+	}
     }
     
     /**
      * text height
      * 
      * @param (string) text size
+     * @param (option) style option
      * @return (string) css size value
-     * @note this is the same as the 'size'.
      * @type tag parameter
      */
-    height (val) {
-        try { return this.size(val); } catch (e) {
+    height (prm, opt) {
+        try {
+	    let siz = mf.func.getSize(
+                (undefined === prm) ? this.size() : prm
+	    );
+	    let siz_buf = null;
+            if ( ('rem' === siz.type()) || ('px' === siz.type()) ) {
+	        if (undefined === prm) {
+                    siz_buf = siz.value()*this.heiWeight();
+		} else {
+                    siz_buf = siz.value()/this.heiWeight();
+		}
+		siz_buf = mf.func.roundUp(siz_buf) + siz.type();
+            } else {
+                siz_buf = siz.toString();
+	    }
+            
+            if (undefined === prm) {
+	        /* gettter */
+                return siz_buf;
+	    }
+            this.size(siz_buf, opt);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
     /**
+     * height weight
+     * 
+     * @param (number) height weight
+     * @return (number) height weight
+     * @type private
+     */
+    heiWeight (prm) {
+        try {
+	    return this.member("heiWeight", "number", prm, 1.5);
+	} catch (e) {
+	    console.error(e.stack);
+            throw e;
+	}
+    }
+    
+    /**
      * text color
      * 
-     * @param (solor) text color
+     * @param (color) text color
+     * @param (option) style option
      * @return (string) text color
      * @type tag parameter
      */
-    mainColor (val) {
-        try { return mf.func.cmpColor(this, 'color', val); } catch (e) {
+    mainColor (val, opt) {
+        try { return mf.func.cmpColor(this, 'color', [val, opt]); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -144,8 +197,8 @@ mf.comp.Text = class extends mf.Component {
     /**
      * text thickness
      *
-     * @param (number:100-900) thickness value
-     *        (null) delete thickness
+     * @param (number/null) number: thickness value [100-900]
+     *                      null: delete thickness
      * @return (number) thickness value
      * @type tag parameter
      */
