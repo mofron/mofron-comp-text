@@ -21,14 +21,14 @@ npm install mofron   mofron-comp-text
 |Simple<br>Param | Parameter Name | Type | Description |
 |:--------------:|:---------------|:-----|:------------|
 | ◯  | text | string | text value |
-| | size | string | text size |
+| | size | string (size) | text size |
 | | | option | style option |
-| | height | string | text size |
+| | height | string (size) | text size |
 | | | option | style option |
 | | mainColor | color | text color |
 | | | option | style option |
 | | font | string | font name |
-| | space | string | spacing size |
+| | space | string (size) | spacing size |
 | | weight | number/null | number: thickness value [100-900] |
 | | | | null: delete thickness |
 

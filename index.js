@@ -60,7 +60,7 @@ mf.comp.Text = class extends mf.Component {
     /**
      * text size
      *
-     * @param (string) text size
+     * @param (string (size)) text size
      * @param (option) style option
      * @return (string) css size value
      * @type tag parameter
@@ -75,8 +75,8 @@ mf.comp.Text = class extends mf.Component {
     /**
      * forced size
      * 
-     * @param (string) text size
-     * @return (string) text size
+     * @param (string (size)) text size
+     * @return (string (size)) text size
      * @type private
      */
     fsize (prm) {
@@ -89,7 +89,7 @@ mf.comp.Text = class extends mf.Component {
     /**
      * text height
      * 
-     * @param (string) text size
+     * @param (string (size)) text size
      * @param (option) style option
      * @return (string) css size value
      * @type tag parameter
@@ -183,7 +183,7 @@ mf.comp.Text = class extends mf.Component {
     /**
      * character spacing
      *
-     * @param (string) spacing size
+     * @param (string (size)) spacing size
      * @return (string) spacing size
      * @type tag parameter
      */
