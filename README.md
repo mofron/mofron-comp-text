@@ -29,6 +29,6 @@ npm install mofron   mofron-comp-text
 | | | option | style option |
 | | font | string | font name |
 | | space | string (size) | spacing size |
-| | weight | number/null | number: thickness value [100-900] |
+| | weight | mixed | number: thickness value [100-900] |
 | | | | null: delete thickness |
 

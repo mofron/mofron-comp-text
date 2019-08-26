@@ -197,8 +197,8 @@ mf.comp.Text = class extends mf.Component {
     /**
      * text thickness
      *
-     * @param (number/null) number: thickness value [100-900]
-     *                      null: delete thickness
+     * @param (mixed) number: thickness value [100-900]
+     *                null: delete thickness
      * @return (number) thickness value
      * @type tag parameter
      */
