@@ -25,7 +25,8 @@ npm install mofron   mofron-comp-text
 | | | option | style option |
 | | height | string (size) | text size |
 | | | option | style option |
-| | mainColor | color | text color |
+| | mainColor | mixed | string: color name, #hex |
+| | | | array: [red, green, blue, (alpha)] |
 | | | option | style option |
 | | font | string | font name |
 | | space | string (size) | spacing size |

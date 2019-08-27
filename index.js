@@ -141,7 +141,8 @@ mf.comp.Text = class extends mf.Component {
     /**
      * text color
      * 
-     * @param (color) text color
+     * @param (mixed) string: color name, #hex
+     *                array: [red, green, blue, (alpha)]
      * @param (option) style option
      * @return (string) text color
      * @type tag parameter
