@@ -3,24 +3,30 @@
  * @brief  text component for mofron
  * @author simpart
  */
-const mf   = require('mofron');
+const comutl = mofron.util.common;
+const cmputl = mofron.util.component;
 const Font = require('mofron-effect-font');
 
-mf.comp.Text = class extends mf.Component {
-
+module.exports = class extends mofron.class.Component {
     /**
      * constructor
      * 
-     * @param (string) 'text' function parameter
+     * @param (mixed) text: parameter
+     *                object: component 
      * @pmap text
      * @type private
      */
-    constructor (po) {
+    constructor (prm) {
         try {
             super();
             this.name('Text');
-            this.prmMap('text');
-            this.prmOpt(po);
+            
+            this.confmng().add("heiWeight", { init:1.5, type:"number" });
+            
+            this.shortForm('text');
+	    if (undefined !== prm) {
+                this.config(prm);
+	    }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -48,10 +54,12 @@ mf.comp.Text = class extends mf.Component {
      * 
      * @param (string) text value
      * @return (string) text value
-     * @type tag parameter
+     * @type parameter
      */
     text (val) {
-        try { return this.target().text(val); } catch (e) {
+        try {
+	    return this.childDom().text(val);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -61,42 +69,30 @@ mf.comp.Text = class extends mf.Component {
      * text size
      *
      * @param (string (size)) text size
-     * @param (option) style option
+     * @param (key-value) style option
      * @return (string) css size value
-     * @type tag parameter
+     * @type parameter
      */
     size (val, opt) {
-        try { return mf.func.cmpSize(this, 'font-size', [val,opt]); } catch (e) {
+        try {
+	    return cmputl.size(this, "font-size", val, opt);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
     /**
-     * forced size
-     * 
-     * @param (string (size)) text size
-     * @return (string (size)) text size
-     * @type private
-     */
-    fsize (prm) {
-        try { this.size(prm,{locked:true}); } catch (e) {
-	    console.error(e.stack);
-            throw e;
-	}
-    }
-    
-    /**
      * text height
      * 
-     * @param (string (size)) text size
-     * @param (option) style option
+     * @param (string (size)) height (adjust the size according to the height)
+     * @param (key-value) style option
      * @return (string) css size value
-     * @type tag parameter
+     * @type parameter
      */
     height (prm, opt) {
         try {
-	    let siz = mf.func.getSize(
+	    let siz = comutl.getsize(
                 (undefined === prm) ? this.size() : prm
 	    );
 	    let siz_buf = null;
@@ -106,7 +102,7 @@ mf.comp.Text = class extends mf.Component {
 		} else {
                     siz_buf = siz.value()/this.heiWeight();
 		}
-		siz_buf = mf.func.roundUp(siz_buf) + siz.type();
+		siz_buf = comutl.roundup(siz_buf) + siz.type();
             } else {
                 siz_buf = siz.toString();
 	    }
@@ -123,7 +119,7 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * height weight
+     * height-weight for height
      * 
      * @param (number) height weight
      * @return (number) height weight
@@ -131,7 +127,7 @@ mf.comp.Text = class extends mf.Component {
      */
     heiWeight (prm) {
         try {
-	    return this.member("heiWeight", "number", prm, 1.5);
+	    return this.confmng("heiWeight", prm);
 	} catch (e) {
 	    console.error(e.stack);
             throw e;
@@ -142,13 +138,37 @@ mf.comp.Text = class extends mf.Component {
      * text color
      * 
      * @param (mixed (color)) string: color name, #hex
-     *                array: [red, green, blue, (alpha)]
-     * @param (option) style option
+     *                        array: [red, green, blue, (alpha)]
+     * @param (key-value) style option
      * @return (string) text color
-     * @type tag parameter
+     * @type parameter
      */
     mainColor (val, opt) {
-        try { return mf.func.cmpColor(this, 'color', [val, opt]); } catch (e) {
+        try {
+	    return cmputl.color(this, 'color', val, opt);
+	} catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    /**
+     * text under line color
+     * 
+     * @param (mixed (color)) string: color name, #hex
+     *                        array: [red, green, blue, (alpha)]
+     *                        null: delete under line
+     * @param (key-value) style option
+     * @return (string) text under line color
+     * @type parameter
+     */
+    accentColor (val, opt) {
+        try {
+	    if (undefined !== val) {
+                this.style({ "text-decoration" : (null === val) ? null : "underline" });
+	    }
+	    return cmputl.color(this, "text-decoration-color", val, opt);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -157,22 +177,28 @@ mf.comp.Text = class extends mf.Component {
     /**
      * text font
      * 
-     * @param (string) font name
-     * @return (array) font name
-     * @type tag parameter
+     * @param (mixed) string: font name
+     *                array: [primary font, secondary font]
+     * @return (string) font name
+     * @type parameter
      */
     font (fnm, pth) {
         try {
-            let ret = this.effect('Font');
+            let ret = this.effect({ name:"Font" });
             if (undefined === fnm) {
                 /* getter */
-                return (null === ret) ? null : ret.fontName();
+                return (null === ret) ? null : ret.family();
             }
             /* setter */
             if (null === ret) {
-                this.effect(new Font(fnm, pth));
-            } else {
-                ret.fontName(fnm);
+	        let set_fnm = (true === Array.isArray(fnm)) ? new mofron.class.ConfArg(fnm[0],fnm[1]) : fnm;
+                this.effect(new Font(set_fnm, pth));
+            } else if (true === comutl.isinc(ret,"Font")) {
+	        if (true === Array.isArray(fnm)) {
+                    ret.family(fnm[0], fnm[1]);
+		} else {
+                    ret.family(fnm);
+		}
                 ret.path(pth);
             }
         } catch (e) {
@@ -183,13 +209,16 @@ mf.comp.Text = class extends mf.Component {
     
     /**
      * character spacing
-     *
+     * 
      * @param (string (size)) spacing size
+     * @param (key-value) style option
      * @return (string) spacing size
-     * @type tag parameter
+     * @type parameter
      */
-    space (val) {
-        try { return mf.func.cmpSize(this, 'letter-spacing', val); } catch (e) {
+    space (val, opt) {
+        try {
+	    return cmputl.size(this, 'letter-spacing', val, opt);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -197,22 +226,21 @@ mf.comp.Text = class extends mf.Component {
     
     /**
      * text thickness
-     *
+     * 
      * @param (mixed) number: thickness value [100-900]
      *                null: delete thickness
+     * @param (key-value) style option
      * @return (number) thickness value
-     * @type tag parameter
+     * @type parameter
      */
-    weight (val) {
+    weight (val, opt) {
         try {
-            return this.style(
-                (undefined === val) ? 'font-weight' : { 'font-weight' : val }
-            );
+	    let set_val = (undefined === val) ? 'font-weight' : { 'font-weight' : val };
+            return this.style(set_val, opt);
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
 }
-module.exports = mofron.comp.Text;
 /* end of file */

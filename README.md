@@ -22,14 +22,21 @@ npm install mofron   mofron-comp-text
 |:--------------:|:---------------|:-----|:------------|
 | ◯  | text | string | text value |
 | | size | string (size) | text size |
-| | | option | style option |
-| | height | string (size) | text size |
-| | | option | style option |
+| | | key-value | style option |
+| | height | string (size) | height (adjust the size according to the height) |
+| | | key-value | style option |
 | | mainColor | mixed (color) | string: color name, #hex |
 | | | | array: [red, green, blue, (alpha)] |
-| | | option | style option |
-| | font | string | font name |
+| | | key-value | style option |
+| | accentColor | mixed (color) | string: color name, #hex |
+| | | | array: [red, green, blue, (alpha)] |
+| | | | null: delete under line |
+| | | key-value | style option |
+| | font | mixed | string: font name |
+| | | | array: [primary font, secondary font] |
 | | space | string (size) | spacing size |
+| | | key-value | style option |
 | | weight | mixed | number: thickness value [100-900] |
 | | | | null: delete thickness |
+| | | key-value | style option |
 
