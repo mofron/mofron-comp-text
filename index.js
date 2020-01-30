@@ -1,7 +1,7 @@
 /**
  * @file   mofron-comp-text/index.js
  * @brief  text component for mofron
- * @author simpart
+ * @license MIT
  */
 const comutl = mofron.util.common;
 const cmputl = mofron.util.component;
@@ -11,19 +11,20 @@ module.exports = class extends mofron.class.Component {
     /**
      * constructor
      * 
-     * @param (mixed) text: parameter
-     *                object: component 
-     * @pmap text
+     * @param (mixed) short-form parameter
+     *                key-value: component config
+     * @short text
      * @type private
      */
     constructor (prm) {
         try {
             super();
             this.name('Text');
-            
-            this.confmng().add("heiWeight", { init:1.5, type:"number" });
-            
             this.shortForm('text');
+	    /* init config */
+            this.confmng().add("heiWeight", { init:1.5, type:"number" });
+	    this.confmng().add("weight", { type: "number", select: [100,200,300,400,500,600,700,800,900] });
+            /* set config */
 	    if (undefined !== prm) {
                 this.config(prm);
 	    }
@@ -41,6 +42,7 @@ module.exports = class extends mofron.class.Component {
     initDomConts () {
         try {
             super.initDomConts();
+	    this.effect(new Font({ tag: "Text", suspend: true }));
             this.text('');         // default text
             this.size("0.16rem");  // default size
         } catch (e) {
@@ -50,9 +52,10 @@ module.exports = class extends mofron.class.Component {
     }
     
     /**
-     * text value
+     * text setter/getter
      * 
-     * @param (string) text value
+     * @param (mixed) string: text value
+     *                undefined: call as getter
      * @return (string) text value
      * @type parameter
      */
@@ -66,11 +69,28 @@ module.exports = class extends mofron.class.Component {
     }
     
     /**
-     * text size
+     * text getter
+     * 
+     * @return (string) text value
+     * @type function
+     */
+    toString () {
+        try {
+            return this.text();
+	} catch (e) {
+            console.error(e.stack);
+	    throw e;
+	}
+    }
+    
+    /**
+     * text size setter/getter
      *
-     * @param (string (size)) text size
-     * @param (key-value) style option
-     * @return (string) css size value
+     * @param (mixed) string (size): text size
+     *                undefined: call as getter
+     * @param (key-value) style option [not required]
+     * @return (mixed) string: text size (default is "0.16rem")
+     *                 null: not set
      * @type parameter
      */
     size (val, opt) {
@@ -83,11 +103,13 @@ module.exports = class extends mofron.class.Component {
     }
     
     /**
-     * text height
+     * text height setter/getter
      * 
-     * @param (string (size)) height (adjust the size according to the height)
-     * @param (key-value) style option
-     * @return (string) css size value
+     * @param (mixed) string (size): text size
+     *                undefined: call as getter
+     * @param (key-value) style option [not required]
+     * @return (mixed) string: text height (default is "0.24rem")
+     *                 null: not set
      * @type parameter
      */
     height (prm, opt) {
@@ -119,10 +141,13 @@ module.exports = class extends mofron.class.Component {
     }
     
     /**
-     * height-weight for height
+     * height weight setter/getter
+     * this value to make 'height' parameter and real dom size the same
+     * it needs to adjust depending on font difference.
      * 
-     * @param (number) height weight
-     * @return (number) height weight
+     * @param (mixed) number: height weight rate
+     *                undefined: call as getter
+     * @return (number) height weight rate
      * @type private
      */
     heiWeight (prm) {
@@ -135,12 +160,13 @@ module.exports = class extends mofron.class.Component {
     }
     
     /**
-     * text color
+     * text color setter/getter
      * 
      * @param (mixed (color)) string: color name, #hex
-     *                        array: [red, green, blue, (alpha)]
-     * @param (key-value) style option
-     * @return (string) text color
+     *                array: [red, green, blue, (alpha)]
+     * @param (key-value) style option [not required]
+     * @return (mixed) string: text color
+     *                 null: not set
      * @type parameter
      */
     mainColor (val, opt) {
@@ -153,54 +179,32 @@ module.exports = class extends mofron.class.Component {
     }
     
     /**
-     * text under line color
-     * 
-     * @param (mixed (color)) string: color name, #hex
-     *                        array: [red, green, blue, (alpha)]
-     *                        null: delete under line
-     * @param (key-value) style option
-     * @return (string) text under line color
-     * @type parameter
-     */
-    accentColor (val, opt) {
-        try {
-	    if (undefined !== val) {
-                this.style({ "text-decoration" : (null === val) ? null : "underline" });
-	    }
-	    return cmputl.color(this, "text-decoration-color", val, opt);
-	} catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
-     * text font
+     * text font setter/getter
      * 
      * @param (mixed) string: font name
-     *                array: [primary font, secondary font]
-     * @return (string) font name
+     *                undefined: call as getter
+     * @param (string) path to font file [not required]
+     * @return (mixed) array: font name
+     *                 null: not set
      * @type parameter
      */
     font (fnm, pth) {
         try {
-            let ret = this.effect({ name:"Font" });
+            let font = this.effect({ name:"Font", tag: "Text" });
             if (undefined === fnm) {
                 /* getter */
-                return (null === ret) ? null : ret.family();
+		return font.fname(); 
             }
             /* setter */
-            if (null === ret) {
-	        let set_fnm = (true === Array.isArray(fnm)) ? new mofron.class.ConfArg(fnm[0],fnm[1]) : fnm;
-                this.effect(new Font(set_fnm, pth));
-            } else if (true === comutl.isinc(ret,"Font")) {
-	        if (true === Array.isArray(fnm)) {
-                    ret.family(fnm[0], fnm[1]);
-		} else {
-                    ret.family(fnm);
-		}
-                ret.path(pth);
-            }
+	    font.suspend(false);
+	    if ("string" === typeof fnm) {
+	        font.fname(fnm);
+	    } else if ((true === Array.isArray(fnm)) && (2 === fnm.length)) {
+                font.fname(fnm[0], fnm[1]);
+            } else {
+                throw new Error("invalid parameter");
+	    }
+            font.path(pth);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -208,11 +212,13 @@ module.exports = class extends mofron.class.Component {
     }
     
     /**
-     * character spacing
-     * 
-     * @param (string (size)) spacing size
-     * @param (key-value) style option
-     * @return (string) spacing size
+     * character spacing setter/getter
+     *
+     * @param (mixed) string(size): spacing size
+     *                undefined: call as getter
+     * @param (key-value) style option [not required]
+     * @return (mixed) string: spacing size
+     *                 null: not set
      * @type parameter
      */
     space (val, opt) {
@@ -225,18 +231,23 @@ module.exports = class extends mofron.class.Component {
     }
     
     /**
-     * text thickness
-     * 
+     * text thickness setter/getter
+     *
      * @param (mixed) number: thickness value [100-900]
      *                null: delete thickness
-     * @param (key-value) style option
+     *                undefined: call as getter
+     * @param (key-value) style option [not required]
      * @return (number) thickness value
      * @type parameter
      */
     weight (val, opt) {
         try {
-	    let set_val = (undefined === val) ? 'font-weight' : { 'font-weight' : val };
-            return this.style(set_val, opt);
+	    if (undefined === val) {
+	        /* getter */
+                return this.style("font-weight");
+	    }
+	    /* setter */
+	    this.style({ 'font-weight' : val }, opt);
         } catch (e) {
             console.error(e.stack);
             throw e;

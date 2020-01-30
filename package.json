@@ -1,6 +1,6 @@
 {
   "name": "mofron-comp-text",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "text component for mofron",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "mofron-effect-font" : ""
   },
   "keywords": [
-    "front-end"
+    "front-end","mofron"
   ],
   "author": "simparts",
   "license": "MIT",
