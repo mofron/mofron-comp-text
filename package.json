@@ -1,6 +1,6 @@
 {
   "name": "mofron-comp-text",
-  "version": "0.14.1",
+  "version": "0.15.0",
   "description": "text component for mofron",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mofron/mofron-comp-text.git"
-  },
-  "dependencies": {
-    "mofron-effect-font" : ""
   },
   "keywords": [
     "front-end","mofron"

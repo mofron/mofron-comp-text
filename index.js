@@ -1,11 +1,10 @@
 /**
- * @file   mofron-comp-text/index.js
- * @brief  text component for mofron
+ * @file mofron-comp-text/index.js
+ * @brief text component for mofron
  * @license MIT
  */
 const comutl = mofron.util.common;
 const cmputl = mofron.util.component;
-const Font = require('mofron-effect-font');
 
 module.exports = class extends mofron.class.Component {
     /**
@@ -19,11 +18,16 @@ module.exports = class extends mofron.class.Component {
     constructor (prm) {
         try {
             super();
-            this.name('Text');
+            this.modname('Text');
             this.shortForm('text');
+
 	    /* init config */
             this.confmng().add("heiWeight", { init:1.5, type:"number" });
-	    this.confmng().add("weight", { type: "number", select: [100,200,300,400,500,600,700,800,900] });
+	    this.confmng().add(
+	        "weight",
+		{ type: "number", select: [100,200,300,400,500,600,700,800,900] }
+            );
+
             /* set config */
 	    if (undefined !== prm) {
                 this.config(prm);
@@ -42,7 +46,6 @@ module.exports = class extends mofron.class.Component {
     initDomConts () {
         try {
             super.initDomConts();
-	    this.effect(new Font({ tag: "Text", suspend: true }));
             this.text('');         // default text
             this.size("0.16rem");  // default size
         } catch (e) {
@@ -181,30 +184,28 @@ module.exports = class extends mofron.class.Component {
     /**
      * text font setter/getter
      * 
-     * @param (mixed) string: font name
+     * @param (mixed) string: font name (variable arguments)
      *                undefined: call as getter
-     * @param (string) path to font file [not required]
      * @return (mixed) array: font name
      *                 null: not set
      * @type parameter
      */
-    font (fnm, pth) {
+    font () {
         try {
-            let font = this.effect({ name:"Font", tag: "Text" });
-            if (undefined === fnm) {
+            if (0 === arguments.length) {
                 /* getter */
-		return font.fname(); 
-            }
-            /* setter */
-	    font.suspend(false);
-	    if ("string" === typeof fnm) {
-	        font.fname(fnm);
-	    } else if ((true === Array.isArray(fnm)) && (2 === fnm.length)) {
-                font.fname(fnm[0], fnm[1]);
-            } else {
-                throw new Error("invalid parameter");
+		return this.style("font-family");
 	    }
-            font.path(pth);
+	    /* setter */
+	    let set_fnt = "";
+            for (let aidx=0;aidx < arguments.length; aidx++) {
+                if ("string" !== typeof arguments[aidx]) {
+                    throw new Error("invalid parameter");
+		}
+                set_fnt += arguments[aidx] + ",";
+	    }
+	    set_fnt = set_fnt.substring(0, set_fnt.length-1);
+	    this.style({ "font-family": set_fnt });
         } catch (e) {
             console.error(e.stack);
             throw e;

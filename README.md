@@ -1,12 +1,12 @@
-#   mofron-comp-text
+# mofron-comp-text
 [mofron](https://mofron.github.io/mofron/) is module based frontend framework.
 
- text component for mofron
+text component for mofron
 
 
 # Install
 ```
-npm install mofron   mofron-comp-text
+npm install mofron mofron-comp-text
 ```
 
 # Sample
@@ -23,7 +23,7 @@ npm install mofron   mofron-comp-text
 |:-------------:|:---------------|:-----|:------------|
 | ◯  | text | mixed | string: text value |
 | | | | undefined: call as getter |
-| | toString | | | size | mixed | string (size): text size |
+| | toString | ||| | size | mixed | string (size): text size |
 | | | | undefined: call as getter |
 | | | key-value | style option [not required] |
 | | height | mixed | string (size): text size |
@@ -32,9 +32,8 @@ npm install mofron   mofron-comp-text
 | | mainColor | mixed (color) | string: color name, #hex |
 | | | | array: [red, green, blue, (alpha)] |
 | | | key-value | style option [not required] |
-| | font | mixed | string: font name |
+| | font | mixed | string: font name (variable arguments) |
 | | | | undefined: call as getter |
-| | | string | path to font file [not required] |
 | | space | mixed | string(size): spacing size |
 | | | | undefined: call as getter |
 | | | key-value | style option [not required] |
