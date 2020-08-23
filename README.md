@@ -11,9 +11,9 @@ npm install mofron mofron-comp-text
 
 # Sample
 ```html
-<require>
+<setting>
     <tag load="mofron-comp-text">Text</tag>
-</require>
+</setting>
 <Text size="0.4rem" font="serif" space="0.1rem">text component</Text>
 ```
 
