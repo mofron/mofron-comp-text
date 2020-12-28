@@ -20,14 +20,14 @@ module.exports = class extends mofron.class.Component {
             super();
             this.modname('Text');
             this.shortForm('text');
-
+            
 	    /* init config */
             this.confmng().add("heiWeight", { init:1.5, type:"number" });
 	    this.confmng().add(
-	        "weight",
-		{ type: "number", select: [100,200,300,400,500,600,700,800,900] }
+                "weight",
+                { type: "number", select: [100,200,300,400,500,600,700,800,900] }
             );
-
+            
             /* set config */
 	    if (undefined !== prm) {
                 this.config(prm);
@@ -46,8 +46,8 @@ module.exports = class extends mofron.class.Component {
     initDomConts () {
         try {
             super.initDomConts();
-            this.text('');         // default text
-            this.size("0.16rem");  // default size
+            this.text('');
+            this.size("0.16rem", { private:true });
         } catch (e) {
             console.error(e.stack);
             throw e;
